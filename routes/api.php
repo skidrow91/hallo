@@ -28,12 +28,11 @@
 Route::middleware('auth:api')->group(function () {
     Route::get('/logout', '\App\Http\Controllers\API\AuthController@logout');
     // Route::get('user', '\App\Http\Controllers\API\AuthController@details');
+    Route::apiResource('boards', '\App\Http\Controllers\API\BoardController');
 
     Route::apiResource('lists', '\App\Http\Controllers\API\ListController');
     Route::apiResource('tasks', '\App\Http\Controllers\API\TaskController');
 });
-
-Route::apiResource('boards', '\App\Http\Controllers\API\BoardController');
 
 Route::post('/register', '\App\Http\Controllers\API\AuthController@register');
 Route::post('/login', '\App\Http\Controllers\API\AuthController@login');

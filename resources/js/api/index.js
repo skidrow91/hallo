@@ -1,10 +1,20 @@
 import axios from 'axios'
 
+const header = "Bearer "+localStorage.getItem('access_token')
+
 const getBoards = () => {
   try {
-    return axios.get('/api/boards')
+    return axios.get('/api/boards', {headers: {Authorization: header}})
   } catch (error) {
     console.log(Error)
+  }
+}
+
+const updateBoard = (boardName) => {
+  try {
+    return axios.post('/api/boards', {name: boardName}, {headers: {Authorization: header}})
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -28,4 +38,4 @@ const updateListItem = (objItem) => {
   })
 }
 
-export {getBoards, getLists, getListItems, updateListItem}
+export {getBoards, getLists, getListItems, updateListItem, updateBoard}

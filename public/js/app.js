@@ -2069,7 +2069,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isNewBoard: false,
-      board: null
+      boardName: null,
+      boardItems: []
     };
   },
   methods: {
@@ -2085,9 +2086,31 @@ __webpack_require__.r(__webpack_exports__);
     addNewBoard: function addNewBoard() {
       this.isNewBoard = true;
     },
-    saveBoard: function saveBoard() {}
+    saveBoard: function saveBoard() {
+      if (this.boardName.length > 0) {
+        var self = this;
+        Object(_api_index__WEBPACK_IMPORTED_MODULE_1__["updateBoard"])(this.boardName).then(function (response) {
+          self.boardName = null;
+          self.isNewBoard = false;
+          self.boardItems.push(response.data.boards);
+        });
+      }
+    }
   },
-  mounted: function mounted() {//this.$store.dispatch('boards/getBoards')
+  computed: {
+    listBoard: function listBoard() {
+      // let self = this
+      // console.log(this.boardItems)
+      return this.boardItems;
+    }
+  },
+  mounted: function mounted() {
+    var self = this;
+    Object(_api_index__WEBPACK_IMPORTED_MODULE_1__["getBoards"])().then(function (response) {
+      self.boardItems = response.data.boards; // console.log(response.data.boards)
+    }); // this.$store.dispatch('boards/getBoards')
+    // console.log(this.$store.getters['boards/boards'])
+    // console.log(this.$store.state.boards)
   }
 });
 
@@ -45394,8 +45417,8 @@ var render = function() {
               _c(
                 "b-row",
                 [
-                  this.$store.state.boards.boards
-                    ? _vm._l(this.$store.state.boards.boards, function(item) {
+                  _vm.listBoard.length > 0
+                    ? _vm._l(_vm.listBoard, function(item) {
                         return _c(
                           "b-col",
                           { key: item.id, attrs: { md: "3" } },
@@ -45433,17 +45456,17 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.board,
-                                    expression: "board"
+                                    value: _vm.boardName,
+                                    expression: "boardName"
                                   }
                                 ],
-                                domProps: { value: _vm.board },
+                                domProps: { value: _vm.boardName },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.board = $event.target.value
+                                    _vm.boardName = $event.target.value
                                   }
                                 }
                               }),
@@ -61738,7 +61761,7 @@ var logout = function logout(token) {
 /*!***********************************!*\
   !*** ./resources/js/api/index.js ***!
   \***********************************/
-/*! exports provided: getBoards, getLists, getListItems, updateListItem */
+/*! exports provided: getBoards, getLists, getListItems, updateListItem, updateBoard */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61747,15 +61770,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLists", function() { return getLists; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getListItems", function() { return getListItems; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateListItem", function() { return updateListItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBoard", function() { return updateBoard; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
+var header = "Bearer " + localStorage.getItem('access_token');
 
 var getBoards = function getBoards() {
   try {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/boards');
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/boards', {
+      headers: {
+        Authorization: header
+      }
+    });
   } catch (error) {
     console.log(Error);
+  }
+};
+
+var updateBoard = function updateBoard(boardName) {
+  try {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/boards', {
+      name: boardName
+    }, {
+      headers: {
+        Authorization: header
+      }
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -62372,8 +62415,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var getBoards = function getBoards(context) {
   Object(_api_index__WEBPACK_IMPORTED_MODULE_0__["getBoards"])().then(function (response) {
-    // console.log(response.data.items)
-    context.commit('BOARD_UPDATED', response.data.items);
+    // console.log(response.data.boards)
+    // console.log('test1')
+    context.commit('BOARD_UPDATED', response.data.boards);
   })["catch"](function (error) {
     console.log(error);
   });
@@ -62395,6 +62439,7 @@ var getBoards = function getBoards(context) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var boards = function boards(state) {
+  // console.log('test')
   return state.boards;
 };
 
@@ -62420,28 +62465,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var state = {
-  boards: [// {
-    //   id: 1,
-    //   name: 'Test1',
-    //   user_id: 12
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Test2',
-    //   user_id: 12
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Test3',
-    //   user_id: 12
-    // }
-  ]
+  boards: null
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: state,
   actions: _actions__WEBPACK_IMPORTED_MODULE_0__["default"],
-  // getters,
+  getters: _getters__WEBPACK_IMPORTED_MODULE_1__["default"],
   mutations: _mutations__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 
@@ -62457,6 +62487,8 @@ var state = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var BOARD_UPDATED = function BOARD_UPDATED(state, boards) {
+  // console.log('test')
+  // console.log(boards)
   state.boards = boards;
 };
 

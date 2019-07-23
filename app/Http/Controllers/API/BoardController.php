@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Board;
+use Auth;
 
 class BoardController extends Controller
 {
@@ -20,6 +21,7 @@ class BoardController extends Controller
             $results = [];
             foreach ($boards as $board) {
                 $results[] = [
+                    'id' => $board->id,
                     'name'=> $board->name,
                     'user_id' => $board->user_id
                 ];
@@ -27,7 +29,7 @@ class BoardController extends Controller
                 // print_r($board->name);
                 // exit();
             }
-            return response()->json(['items' => $results], 200);
+            return response()->json(['boards' => $results], 200);
             // echo "<pre/>";
             // print_r($boards);
             // exit();
@@ -52,11 +54,23 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->input('data');
+        $boardName = $request->input('name');
         $status = 200;
         try {
+            $userId = Auth::user()->id;
+            $data = [
+                'name' => $boardName,
+                'user_id' => $userId
+            ];
             $board = Board::create($data);
-            return response()->json(['message' => 'The board created successfully.'], $status);
+            // echo "<pre/>";
+            // print_r($board);
+            // exit();
+            return response()->json(['message' => 'The board created successfully.', 'boards' => [
+             'id' => $board->id,
+             'name' => $board->name,
+             'user_id' => $board->user_id
+            ]], $status);
         } catch (Exception $ex) {
             return response()->json(['message' => 'An error occured'], 500);
         }

@@ -1,4 +1,7 @@
-const boards = state => state.boards
+const boards = state => {
+  // console.log('test')
+  return state.boards
+}
 
 export default {
   boards

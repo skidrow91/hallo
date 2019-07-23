@@ -1,0 +1,100 @@
+.header {
+	padding-top: 20px;
+}
+
+.menu-right {
+  ul {
+		text-align: right;
+    li {
+			display: inline-block;
+			margin-right: 10px;
+
+			&.signup-btn {
+				border: 1px solid;
+    		padding: 10px;
+				border-radius: 5px;
+			}
+    }
+  }
+}
+
+.no-underline {
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.main__login_title {
+	text-align: center;
+	margin-bottom: 50px;
+	padding: 0 15px;
+}
+
+.main__login {
+	width: 40%;
+	margin: 20px auto;
+}
+
+.form-control.normal-input {
+	padding: 0 10px;
+  font-size: 1em;
+	&:focus {
+		outline: none;
+		border: 1px solid #ced4da;
+		box-shadow: none;
+	}
+}
+
+.btn-primary {
+	&.normal-input-btn {
+		width: 50%;
+	}
+	&.large-input-btn {
+		width: 100%;
+	}
+	&.input-btn {
+		background: #fff;
+		border-color: #000;
+		color: #000;
+		&:hover {
+			color: unset;
+			background-color: unset;
+			border-color: unset;
+		}
+	}
+}
+
+.center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.box {
+	height: 100px;
+	border: 1px solid;
+	margin-top: 20px;
+	cursor: pointer;
+
+	h4 {
+		padding: 5px;
+	}
+}
+
+.list {
+	border: 1px solid;
+	padding: 10px 10px 0;
+}
+
+.list__item {
+	border: 1px solid;
+	padding: 5px;
+	margin-bottom: 10px;
+	cursor: pointer;
+
+	&.new-item {
+		border: unset;
+	}
+}

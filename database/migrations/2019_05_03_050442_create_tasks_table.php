@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('name', 255);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('list_id');
-            $table->string('assign_to');
+            $table->string('assign_to')->nullable();
             $table->timestamps();
             $table->foreign('list_id')->references('id')->on('lists');
         });

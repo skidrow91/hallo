@@ -1,7 +1,8 @@
-const token = () => {
+const token = state => {
   // localStorage.setItem('token', token)
-  let token = localStorage.getItem('access_token');
-  return token ? token : false
+  // console.log(state)
+  // console.log(localStorage.getItem('access_token'))
+  return state.token ? state.token : localStorage.getItem('access_token')
   // return state.token
 }
 

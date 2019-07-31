@@ -1,10 +1,9 @@
 import axios from 'axios'
-
-const header = "Bearer "+localStorage.getItem('access_token')
+import store from '../store'
 
 const getBoards = () => {
   try {
-    return axios.get('/api/boards', {headers: {Authorization: header}})
+    return axios.get('/api/boards', {headers: {Authorization: "Bearer "+store.getters['authentication/token']}})
   } catch (error) {
     console.log(Error)
   }
@@ -12,14 +11,26 @@ const getBoards = () => {
 
 const updateBoard = (boardName) => {
   try {
-    return axios.post('/api/boards', {name: boardName}, {headers: {Authorization: header}})
+    return axios.post('/api/boards', {name: boardName}, {headers: {Authorization: "Bearer "+store.getters['authentication/token']}})
   } catch (error) {
     console.log(error)
   }
 }
 
-const getLists = () => {
+const getLists = (boardId) => {
+  try {
+    return axios.get('/api/getList', {headers: {Authorization: "Bearer "+store.getters['authentication/token']}, params: {board_id: boardId}})
+  } catch (error) {
+    console.log(Error)
+  }
+}
 
+const updateList = (name, boardId) => {
+  try {
+    return axios.post('/api/lists', {name: name, board_id: boardId}, {headers: {Authorization: "Bearer "+store.getters['authentication/token']}})
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const getListItems = () => {
@@ -38,4 +49,11 @@ const updateListItem = (objItem) => {
   })
 }
 
-export {getBoards, getLists, getListItems, updateListItem, updateBoard}
+export {
+  getBoards, 
+  getLists, 
+  updateList,
+  getListItems, 
+  updateListItem, 
+  updateBoard
+}

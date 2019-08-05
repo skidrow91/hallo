@@ -5,7 +5,7 @@
     </template>
     <template>
       <b-col md="3">
-        <div class="box">
+        <div class="list">
           <h4 @click="addNewList">+ Add another list</h4>
           <div v-if="isNewList" class="list__item new-item-box">
             <textarea v-model="listName"></textarea>
@@ -99,3 +99,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.list {
+  background: #dfe1e6;
+  border: 1px solid;
+  padding: 10px 10px 30px;
+  border-radius: 3px;
+  border-color: transparent;
+  position: relative;
+}
+</style>

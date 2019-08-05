@@ -1,7 +1,7 @@
 <template>
   <b-col md="3">
-    <div class="box">
-      <h4>{{itemName}}</h4>
+    <div class="list">
+      <h4 class="list__title">{{itemName}}</h4>
       <Card v-for="card in cards" v-bind:key="card.id" v-bind:card-name="card.name" />
       <NewCard v-bind:list-id="itemId" v-on:returnCardBack="updateListCard" />
     </div>
@@ -49,3 +49,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.list__title {
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+</style>

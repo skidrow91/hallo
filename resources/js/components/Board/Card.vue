@@ -49,7 +49,11 @@ export default {
 
 <style lang="scss">
   .card-box {
-    border: 1px solid;
-    padding: 5px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(9,30,66,.25);
+    border-radius: 3px;
+    cursor: pointer;
   }
 </style>

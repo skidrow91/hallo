@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a href="#" @click.prevent="addNewTask">+ Add another card</a>
+  <div class="list__newCard">
+    <a class="list__newCardButton" href="#" @click.prevent="addNewTask">+ Add another card</a>
     <template v-if="isNewTask">
       <textarea v-model="taskName"></textarea>
       <button type="button" @click="saveTask">Add</button>
@@ -55,3 +55,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.list__newCard {
+  width: 100%;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+
+  &:hover {
+    background: rgba(9,30,66,.13);
+  }
+}
+.list__newCardButton {
+  color: #6b778c;
+  padding: 0 0 0 10px;
+
+  &:hover {
+    color: #6b778c;
+  }
+}
+</style>

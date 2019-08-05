@@ -20,3 +20,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.main {
+  background: rgb(0, 121, 191);
+}
+</style>

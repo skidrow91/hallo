@@ -25,7 +25,7 @@ class TaskController extends Controller
                 'list_id' => $item->list_id
             ];
         }
-        return response()->json(['tasks' => $results], 200);
+        return response()->json(['cards' => $results], 200);
     }
 
     /**
@@ -46,25 +46,50 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');
-        $description = $request->input('description');
-        $listId = $request->input('list_id');
+        // $name = $request->input('name');
+        // $description = $request->input('description');
+        // $listId = $request->input('list_id');
+        $cardData = $request->input('task_data');
+        // echo '<pre/';
+        // print_r($taskData);
+        // exit();
         $status = 200;
         try {
             $data = [
-                'name' => $itemName,
-                'description' => $description,
-                'list_id' => $listId
+                'name' => $cardData['name'],
+                'description' => $cardData['description'],
+                'list_id' => $cardData['list_id']
             ];
             $task = Task::create($data);
             // echo "<pre/>";
             // print_r($board);
             // exit();
-            return response()->json(['message' => 'The task created successfully.', 'task' => [
-             'name' => $task->id,
+            return response()->json(['message' => 'The task created successfully.', 'card' => [
+             'id' => $task->id,
+             'name' => $task->name,
              'description' => $task->description,
              'list_id' => $task->list_id
             ]], $status);
+        } catch (Exception $ex) {
+            return response()->json(['message' => 'An error occured'], 500);
+        }
+    }
+
+    public function getByListId(Request $request) 
+    {
+        $listId = $request->get('list_id');
+        try {
+            $cards = Task::where('list_id', $listId)->get();
+            $items = [];
+            foreach ($cards as $item) {
+                $items[] = [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'description' => $item->description,
+                    'list_id' => $item->list_id
+                ];
+            }
+            return response()->json(['cards' => $items]);
         } catch (Exception $ex) {
             return response()->json(['message' => 'An error occured'], 500);
         }

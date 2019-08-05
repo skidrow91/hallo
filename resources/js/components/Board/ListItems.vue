@@ -1,15 +1,7 @@
 <template>
   <b-row>
     <template v-if="list.length > 0">
-      <b-col md="3" v-for="item in list" v-bind:key="item.id">
-        <div class="box">
-          <h4>{{item.name}}</h4>
-          <div>
-            <textarea v-model="listName"></textarea>
-            <button type="button" @click="saveList">Add</button>
-          </div>
-        </div>
-      </b-col>
+      <Item v-for="item in list" v-bind:key="item.id" v-bind:item-name="item.name" v-bind:item-id="item.id" />
     </template>
     <template>
       <b-col md="3">
@@ -28,44 +20,23 @@
 
 <script>
 
-import Header from '../Header.vue'
-import {getLists, updateList} from '../../api/index'
+import Header from '../Header'
+import Item from './Item'
+import {getLists, updateList, getCards} from '../../api/index'
 
-export default {
-    
+export default { 
 	components: {
-		Header
+    Header,
+    Item
   },
   data() {
     return {
       boardId: this.$route.params.id,
       isNewList: false,
       listName: null,
-      listItems: []
-    }
-  },
-	methods: {
-		boardDetail: function (id) {
-      // alert('test');
-      // getBoards();
-			// this.$router.push({ name: 'board_detail', params: {boardId: id}});
-			// console.log(this.$store.state.boards.boards);
-			getBoards().then(response => {
-				console.log(response.data.items);
-			})
-    },
-    addNewList: function () {
-      this.isNewList = true
-    },
-    saveList: function () {
-      if (this.listName.length > 0) {
-        let self = this
-        updateList(this.listName, this.boardId).then(response => {
-          self.listName = null
-          self.isNewList = false
-          self.listItems.push(response.data.list)
-        })
-      }
+      listItems: [],
+      listTasks: [],
+      newTasks: []
     }
   },
   computed: {
@@ -83,6 +54,48 @@ export default {
     // this.$store.dispatch('boards/getBoards')
     // console.log(this.$store.getters['boards/boards'])
     // console.log(this.$store.state.boards)
+  },
+  methods: {
+    addNewList: function () {
+      this.isNewList = true
+    },
+    addNewTask: function (listId) {
+      let data = {
+        name: "",
+        description: "",
+        list_id: listId
+      }
+      this.newTasks.push(data)
+      // console.log(this.newTasks)
+    },
+    saveList: function () {
+      if (this.listName.length > 0) {
+        let self = this
+        updateList(this.listName, this.boardId).then(response => {
+          self.listName = null
+          self.isNewList = false
+          self.listItems.push(response.data.list)
+        })
+      }
+    },
+    saveTask () {
+      updateTask(this.newTasks).then(response => {
+        console.log(response)
+      })
+    },
+    closeTask(listId) {
+      this.newTasks = this.newTasks.filter(elm => elm.list_id != listId)
+    },
+    isOpenCard: function (listId) {
+      if (this.newTasks.length > 0) {
+        for (let i=0; i<this.newTasks.length; i++) {
+          if (this.newTasks[i].list_id == listId) {
+            return true
+          }
+        }
+      }
+      return false
+    }
   }
 }
 </script>

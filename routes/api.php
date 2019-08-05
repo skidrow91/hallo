@@ -34,6 +34,8 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('tasks', '\App\Http\Controllers\API\TaskController');
 
     Route::get('getList', '\App\Http\Controllers\API\ListController@getByBoardId');
+
+    Route::get('getCards', '\App\Http\Controllers\API\TaskController@getByListId');
 });
 
 Route::post('/register', '\App\Http\Controllers\API\AuthController@register');

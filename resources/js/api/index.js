@@ -37,7 +37,7 @@ const getListItems = () => {
   try {
     return axios.get('/api/lists')
   } catch (error) {
-    console.log(Error)
+    console.log(error)
   }
 }
 
@@ -49,11 +49,29 @@ const updateListItem = (objItem) => {
   })
 }
 
+const getCards = (listId) => {
+  try {
+    return axios.get('/api/getCards', {headers: {Authorization: "Bearer "+store.getters['authentication/token']}, params: {list_id: listId}})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const updateCard = (data) => {
+  try {
+    return axios.post('/api/tasks', {task_data: data}, {headers: {Authorization: "Bearer "+store.getters['authentication/token']}})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getBoards, 
   getLists, 
   updateList,
   getListItems, 
   updateListItem, 
-  updateBoard
+  updateBoard,
+  updateCard,
+  getCards
 }

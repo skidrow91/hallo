@@ -38,3 +38,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.header {
+  background: rgba(0,0,0,.15);
+}
+</style>

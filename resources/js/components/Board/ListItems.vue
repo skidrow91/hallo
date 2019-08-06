@@ -5,8 +5,8 @@
     </template>
     <template>
       <b-col md="3">
-        <div class="list">
-          <h4 @click="addNewList">+ Add another list</h4>
+        <div class="newList">
+          <h4 class="newList__title" @click="addNewList">+ Add another list</h4>
           <div v-if="isNewList" class="list__item new-item-box">
             <textarea v-model="listName"></textarea>
             <button type="button" @click="saveList">Add</button>
@@ -108,5 +108,17 @@ export default {
   border-radius: 3px;
   border-color: transparent;
   position: relative;
+}
+.newList {
+  background: rgba(0,0,0,.12);
+  cursor: pointer;
+  padding: 5px 0 5px 10px;
+  border-radius: 3px;
+}
+.newList__title {
+  font-size: 14px;
+  text-transform: capitalize;
+  margin-top: 10px;
+  color: hsla(0,0%,100%,.8);
 }
 </style>

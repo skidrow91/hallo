@@ -22,7 +22,10 @@ export default {
 </script>
 
 <style lang="scss">
+.wrapper {
+	background: rgb(0, 121, 191);
+}
 .main {
-  background: rgb(0, 121, 191);
+  height: 100vh;
 }
 </style>

@@ -24,6 +24,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.21",
+        "@fortawesome/free-solid-svg-icons": "^5.10.1",
+        "@fortawesome/vue-fontawesome": "^0.1.6",
         "bootstrap-vue": "^2.0.0-rc.19",
         "vee-validate": "^2.2.13",
         "vue-router": "^3.0.6",

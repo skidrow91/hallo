@@ -71,25 +71,3 @@
 .text-left {
 	text-align: left;
 }
-
-.box {
-	height: 100px;
-	border: 1px solid;
-	margin-top: 20px;
-	cursor: pointer;
-
-	h4 {
-		padding: 5px;
-	}
-}
-
-.list__item {
-	border: 1px solid;
-	padding: 5px;
-	margin-bottom: 10px;
-	cursor: pointer;
-
-	&.new-item {
-		border: unset;
-	}
-}

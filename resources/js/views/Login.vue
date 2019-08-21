@@ -38,6 +38,8 @@
 <script>
 import {login} from '../api/login'
 
+const RECAPTCHA_TOKEN = `6LelBIcUAAAAAGkihBXg7vWPXV5QJaj0bE_qeX1e`;
+
 export default {
   name: 'Login',
   data () {

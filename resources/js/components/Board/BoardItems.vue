@@ -1,23 +1,27 @@
 <template>
-  <b-row>
-    <template v-if="listBoard.length > 0">
-      <b-col md="3" v-for="item in listBoard" v-bind:key="item.id">
-        <div class="box" @click="boardDetail(item.id)">
-          <h4>{{item.name}}</h4>
-        </div>
-      </b-col>
-    </template>
-    <b-col md="3">
-      <div class="box">
-        <h4 @click="addNewBoard">+ Add another board</h4>
-        <div v-if="isNewBoard" class="list__item new-item-box">
-          <textarea v-model="boardName"></textarea>
-          <button type="button" @click="saveBoard">Add</button>
-          <!-- <a href="#" @click.prevent="closeNewItemBox">Close</a> -->
-        </div>
-      </div>
-    </b-col>    
-	</b-row>
+  <div class="boardWrapper">
+    <b-container>
+      <b-row>
+        <template v-if="listBoard.length > 0">
+          <b-col md="3" v-for="item in listBoard" v-bind:key="item.id">
+            <div class="boardWrapper__item" @click="boardDetail(item.id)">
+              <h4 class="boardWrapper__itemTitle">{{item.name}}</h4>
+            </div>
+          </b-col>
+        </template>
+        <b-col md="3">
+          <div class="boardWrapper__item boardWrapper__newItem">
+            <h4 class="boardWrapper__itemTitle" @click="isNewBoard = true">Create another board</h4>
+            <div v-if="isNewBoard" class="list__item new-item-box">
+              <textarea v-model="boardName"></textarea>
+              <button type="button" @click="saveBoard">Add</button>
+              <button type="button" @click.prevent="closeNewItem">Close</button>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -39,18 +43,7 @@ export default {
   },
 	methods: {
 		boardDetail: function (id) {
-      // alert('test');
-      // getBoards();
-			// this.$router.push({ name: 'board_detail', params: {boardId: id}});
-			// console.log(this.$store.state.boards.boards);
-			// getBoards().then(response => {
-			// 	console.log(response.data.items);
-      // })
-      // alert(id)
       this.$router.push({name: 'board_detail', params: {id: id}})
-    },
-    addNewBoard: function () {
-      this.isNewBoard = true
     },
     saveBoard: function () {
       if (this.boardName.length > 0) {
@@ -61,12 +54,14 @@ export default {
           self.boardItems.push(response.data.boards)
         })
       }
+    },
+    closeNewItem: function () {
+      this.isNewBoard = false
+      this.boardName = ""
     }
   },
   computed: {
     listBoard: function () {
-      // let self = this
-      // console.log(this.boardItems)
       return this.boardItems
     }
   },
@@ -82,3 +77,43 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.boardWrapper {
+  background: #fafbfc;
+  height: 100%;
+}
+.boardWrapper__item {
+	height: 100px;
+	border: 1px solid;
+	margin-top: 20px;
+	cursor: pointer;
+	background: rgb(0, 121, 191);
+  color: #fff;
+  border: 1px;
+  border-radius: 3px;
+}
+.boardWrapper__itemTitle {
+  padding: 10px;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: 800;
+}
+
+.boardWrapper__newItem {
+  cursor: pointer;
+  background-color: rgba(9,30,66,.04);
+  display: flex;
+  align-items: center;
+
+  .boardWrapper__itemTitle {
+    color: #000;
+    font-weight: 400;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    height: 40px;
+    display: table-cell;
+  }
+}
+</style>

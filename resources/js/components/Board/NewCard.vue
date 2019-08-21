@@ -1,10 +1,12 @@
 <template>
-  <div class="list__newCard">
-    <a class="list__newCardButton" href="#" @click.prevent="addNewTask">+ Add another card</a>
+  <div class="list__newCard" v-bind:class="{'newCard--open': isNewTask}">
+    <a v-if="!isNewTask" class="list__newCardButton" href="#" @click.prevent="addNewTask">+ Add another card</a>
     <template v-if="isNewTask">
-      <textarea v-model="taskName"></textarea>
-      <button type="button" @click="saveTask">Add</button>
-      <button type="button" @click="closeTask">Close</button>
+        <textarea v-model="taskName" class="newCard__name"></textarea>
+        <div class="newCard__button">
+          <b-button size="sm" variant="success" @click="saveTask">Add Card</b-button>
+          <a class="newList__closeNewItem" href="#" @click.prevent="isNewTask = false">Close</a>
+        </div>
     </template>
   </div>
 </template>
@@ -48,9 +50,6 @@ export default {
         this.isNewTask = false
         this.taskName = ""
       })
-    },
-    closeTask () {
-      this.isNewTask = false
     }
   }
 }
@@ -63,8 +62,10 @@ export default {
   bottom: 5px;
   left: 0;
 
-  &:hover {
-    background: rgba(9,30,66,.13);
+  &:not(.newCard--open) {
+    &:hover {
+      background: rgba(9,30,66,.13);
+    }
   }
 }
 .list__newCardButton {
@@ -74,5 +75,15 @@ export default {
   &:hover {
     color: #6b778c;
   }
+}
+.newCard--open {
+  position: unset;
+}
+
+.newCard__name {
+  width: 100%;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  border-radius: 3px;
+  border: unset;
 }
 </style>

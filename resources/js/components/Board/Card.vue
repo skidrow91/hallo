@@ -7,7 +7,13 @@
       {{cardName}}
       <a class="cardEditable" @click.prevent="isOpenEditor = true" v-bind:class="{'cardEditable--open': isEditableValid}" href="#"><font-awesome-icon icon="pen" /></a>
     </div>
-    <CardEditable v-if="isOpenEditor" v-out-side="isOpenEditor" />
+    <CardEditable 
+      v-if="isOpenEditor" 
+      v-out-side="isOpenEditor" 
+      v-bind:card-name="cardName"
+      v-bind:card-id="cardId" 
+      v-on:refreshCard="refreshCard"
+    />
   </div>
 </template>
 
@@ -43,7 +49,7 @@ export default {
     // console.log(this.$store.getters['boards/boards'])
     // console.log(this.$store.state.boards)
   },
-  props: ['cardName'],
+  props: ['cardName', 'cardId'],
   directives: {
     'out-side': {
       bind: function(el, binding, vNode) {
@@ -51,7 +57,7 @@ export default {
           // console.log(event.target.className)
           // console.log(event.target.nodeName)
           if (binding.value === true && event.target.nodeName != 'path') {
-            if (event.target.className != 'cardEditor_area' && (typeof event.target.className == 'string' && event.target.className.indexOf('cardEditor__button') == -1)) {
+            if (event.target.nodeName != 'SPAN' && event.target.className != 'cardEditor_area' && (typeof event.target.className == 'string' && event.target.className.indexOf('cardEditor__button') == -1)) {
               // console.log(event.target.className)
               // binding.value = false
               vNode.context.isOpenEditor = false
@@ -65,12 +71,10 @@ export default {
     }
   },
   methods: {
-    addNewTask () {
-      this.isNewTask = true
-    },
-    closeTask () {
-      this.isNewTask = false
-    },
+    refreshCard () {
+      // alert('test')
+      this.$emit('refreshCard')
+    }
     // openQuickEditor () {
     //   alert('test');
     // }

@@ -65,6 +65,14 @@ const updateCard = (data) => {
   }
 }
 
+const delCard = (cardId) => {
+  try { 
+    return axios.delete('/api/tasks/'+cardId, {headers: {Authorization: "Bearer "+store.getters['authentication/token']}}, {})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export {
   getBoards, 
   getLists, 
@@ -73,5 +81,6 @@ export {
   updateListItem, 
   updateBoard,
   updateCard,
-  getCards
+  getCards,
+  delCard
 }

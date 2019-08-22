@@ -2,7 +2,12 @@
   <b-col md="3">
     <div class="list">
       <h4 class="list__title">{{itemName}}</h4>
-      <Card v-for="card in cards" v-bind:key="card.id" v-bind:card-name="card.name" />
+      <Card v-for="card in cards" 
+        v-bind:key="card.id" 
+        v-bind:card-name="card.name" 
+        v-bind:card-id="card.id" 
+        v-on:refreshCard="refreshCard"
+      />
       <NewCard v-bind:list-id="itemId" v-on:returnCardBack="updateListCard" />
     </div>
   </b-col>
@@ -45,6 +50,13 @@ export default {
     },
     updateListCard (cardReturn) {
       this.listCards.push(cardReturn)
+    },
+    refreshCard () {
+      // alert('testdada')
+      let self = this
+      getCards(this.itemId).then(response => {
+        self.listCards = response.data.cards
+      })
     }
   }
 }

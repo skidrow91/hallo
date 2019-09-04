@@ -13,7 +13,7 @@
 
 <script>
 
-import {updateCard} from '../../api/index'
+import {addCard} from '../../api/index'
 
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
         'description': "",
         'list_id': this.listId
       }
-      updateCard(cardData).then(response => {
+      addCard(cardData).then(response => {
         let data = response.data.card
         this.$emit('returnCardBack', data)
         this.isNewTask = false

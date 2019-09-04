@@ -2,31 +2,39 @@
   <b-col md="3">
     <div class="list">
       <h4 class="list__title">{{itemName}}</h4>
-      <Card v-for="card in cards" 
-        v-bind:key="card.id" 
-        v-bind:card-name="card.name" 
-        v-bind:card-id="card.id" 
-        v-on:refreshCard="refreshCard"
-      />
-      <NewCard v-bind:list-id="itemId" v-on:returnCardBack="updateListCard" />
+        <draggable class="list-group" tag="div" :options='{group: "card"}' v-model="listCards" draggable=".cardBox__wrap" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+          <transition-group type="transition">
+            <Card v-for="card in listCards" 
+                v-bind:key="card.id" 
+                v-bind:card-name="card.name" 
+                v-bind:card-id="card.id" 
+                v-on:refreshCard="refreshCard" 
+                class="cardBox__wrap"
+            />
+          </transition-group>
+        </draggable>
+        <NewCard v-bind:list-id="itemId" v-on:returnCardBack="updateListCard" />
     </div>
   </b-col>
 </template>
 
 <script>
 
+import draggable from 'vuedraggable'
 import {getCards} from '../../api/index'
 import Card from './Card'
 import NewCard from './NewCard'
 
 export default {
   components: {
+    draggable,
     Card,
     NewCard
   },
   data() {
     return {
-      listCards: []
+      listCards: [],
+      isDragging: false,
     }
   },
   computed: {
@@ -57,7 +65,23 @@ export default {
       getCards(this.itemId).then(response => {
         self.listCards = response.data.cards
       })
+    },
+    // checkMove (evt) {
+    //   alert('test')
+    // }
+    onMove({ relatedContext, draggedContext }) {
+      const relatedElement = relatedContext.element;
+      const draggedElement = draggedContext.element;
+      console.log(draggedElement)
+      // return (
+      //   (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      // );
     }
+  },
+  watch: {
+    // isDragging(newValue) {
+    //   console.log(newValue)
+    // }
   }
 }
 </script>

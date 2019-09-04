@@ -21,18 +21,13 @@
 
 <script>
 
-import {delCard} from '../../api/index'
+import {delCard, updateCard} from '../../api/index'
 
 export default {
   data() {
     return {
       
     }
-  },
-  computed: {
-    // list: function () {
-    //   return this.listItems
-    // }
   },
   mounted() {
     // console.log(this.$route.params.id);
@@ -48,7 +43,15 @@ export default {
   props: ['cardName', 'cardId'],
   methods: {
     save () {
-
+      if (this.cardName) {
+        let data = {
+          name: this.cardName
+        }
+        updateCard(data, this.cardId).then(response => {
+          this.$emit('refreshCard')
+          this.$emit('closeEditable')  
+        })
+      }
     },
     remove () {
       // self.$emit('refreshCard')

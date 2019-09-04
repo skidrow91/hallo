@@ -126,7 +126,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $card = Task::find($id);
+        if ($card) {
+            $cardData = $request->input('task_data');
+            $card->name = $cardData['name'];
+            $card->save();
+        }
+        return response()->json(['status' => 1]);
     }
 
     /**

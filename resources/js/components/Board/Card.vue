@@ -13,6 +13,7 @@
       v-bind:card-name="cardName"
       v-bind:card-id="cardId" 
       v-on:refreshCard="refreshCard"
+      v-on:closeEditable="closeEditable"
     />
   </div>
 </template>
@@ -74,6 +75,9 @@ export default {
     refreshCard () {
       // alert('test')
       this.$emit('refreshCard')
+    },
+    closeEditable () {
+      this.isOpenEditor = false
     }
     // openQuickEditor () {
     //   alert('test');

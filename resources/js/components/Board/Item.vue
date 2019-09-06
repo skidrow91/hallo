@@ -2,7 +2,7 @@
   <b-col md="3">
     <div class="list">
       <h4 class="list__title">{{itemName}}</h4>
-        <draggable class="list-group" tag="div" :options='{group: "card"}' v-model="listCards" draggable=".cardBox__wrap" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+        <draggable class="list-group" @change="log" tag="div" :options='{group: "card"}' v-model='listCards' draggable=".cardBox__wrap" :move="onMove" @start="isDragging=true" @end="isDragging=false">
           <transition-group type="transition">
             <Card v-for="card in listCards" 
                 v-bind:key="card.id" 
@@ -66,22 +66,51 @@ export default {
         self.listCards = response.data.cards
       })
     },
+    log (evt) {
+      // console.log(this.itemId)
+      if (evt.hasOwnProperty('added')) {
+        // console.log(this.itemId)
+        // console.log(evt.added.element.id) 
+        this.$emit('refreshList', {
+          listId: this.itemId,
+          cardId: evt.added.element.id,
+          name: evt.added.element.name,
+          description: evt.added.element.description
+        })
+      }
+    },
     // checkMove (evt) {
     //   alert('test')
     // }
     onMove({ relatedContext, draggedContext }) {
-      const relatedElement = relatedContext.element;
-      const draggedElement = draggedContext.element;
-      console.log(draggedElement)
+      const relatedElement = relatedContext.element
+      const draggedElement = draggedContext.element
+      // console.log(relatedContext.list)
+      // console.log(this.itemId)
+      // console.log(draggedElement)
+      // console.log(relatedContext.component)
+      // console.log(relatedContext.element)
+      // console.log(draggedElement)
       // return (
       //   (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       // );
+    },
+    moveCard (evt) {
+      // console.log(evt.to)
+      // console.log(this.listCards)
+      // console.log(this.itemId)
     }
   },
   watch: {
-    // isDragging(newValue) {
-    //   console.log(newValue)
-    // }
+    isDragging(newValue) {
+      // console.log(newValue)
+      // if (newValue==false) {
+        // console.log(this.listCards)
+      //   this.listCards.forEach(function(elm){
+      //     console.log(elm)
+      //   })
+      // }
+    }
   }
 }
 </script>

@@ -130,6 +130,7 @@ class TaskController extends Controller
         if ($card) {
             $cardData = $request->input('task_data');
             $card->name = $cardData['name'];
+            $card->list_id = $cardData['listId'];
             $card->save();
         }
         return response()->json(['status' => 1]);

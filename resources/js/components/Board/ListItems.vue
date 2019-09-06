@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <template v-if="list.length > 0">
-          <Item v-for="item in list" v-bind:key="item.id" v-bind:item-name="item.name" v-bind:item-id="item.id" />
+          <Item v-for="item in list" v-bind:key="item.id" v-bind:item-name="item.name" v-bind:item-id="item.id" v-on:refreshList="refreshList" />
         </template>
         <template>
           <b-col md="3">
@@ -30,7 +30,7 @@
 
 import Header from '../Header'
 import Item from './Item'
-import {getLists, updateList, getCards} from '../../api/index'
+import {getLists, updateList, getCards, updateCard} from '../../api/index'
 
 export default { 
 	components: {
@@ -107,6 +107,15 @@ export default {
     closeNewList () {
       this.isNewList = false
       this.listName = ""
+    },
+    refreshList (obj) {
+      // console.log(obj.listId)
+      // let data = {
+      //   name: this.cardName
+      // }
+      updateCard(obj, obj.cardId).then(response => {
+        console.log(response)
+      })
     }
   }
 }
